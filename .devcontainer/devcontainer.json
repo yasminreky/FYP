@@ -6,9 +6,9 @@
     "PIP_DISABLE_PIP_VERSION_CHECK": "1"
   },
 
-  "onCreateCommand": "bash -lc \"set -e; echo '== System packages (TeX) =='; sudo apt-get update; sudo apt-get install -y --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-xetex texlive-fonts-recommended texlive-bibtex-extra texlive-science latexmk biber chktex ca-certificates curl git; sudo apt-get clean; sudo rm -rf /var/lib/apt/lists/*; echo '== Python packages =='; python -m pip install --upgrade pip; python -m pip install --no-cache-dir jupyter ipykernel numpy pandas matplotlib requests rich pytest black ruff; echo '== Install nvm + Node 20 =='; export NVM_DIR=\\\"$HOME/.nvm\\\"; if [ ! -s \\\"$NVM_DIR/nvm.sh\\\" ]; then curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash; fi; . \\\"$NVM_DIR/nvm.sh\\\"; nvm install 20; nvm use 20; npm -v; if ! grep -qs 'nvm.sh' \\\"$HOME/.bashrc\\\"; then echo 'export NVM_DIR=\\\"$HOME/.nvm\\\"' >> \\\"$HOME/.bashrc\\\"; echo '[ -s \\\"$NVM_DIR/nvm.sh\\\" ] && . \\\"$NVM_DIR/nvm.sh\\\"' >> \\\"$HOME/.bashrc\\\"; echo 'nvm use 20 >/dev/null 2>&1 || true' >> \\\"$HOME/.bashrc\\\"; fi; if ! grep -qs 'nvm.sh' \\\"$HOME/.profile\\\"; then echo 'export NVM_DIR=\\\"$HOME/.nvm\\\"' >> \\\"$HOME/.profile\\\"; echo '[ -s \\\"$NVM_DIR/nvm.sh\\\" ] && . \\\"$NVM_DIR/nvm.sh\\\"' >> \\\"$HOME/.profile\\\"; echo 'nvm use 20 >/dev/null 2>&1 || true' >> \\\"$HOME/.profile\\\"; fi; echo '== Install Gemini CLI =='; npm install -g @google/gemini-cli; gemini --version\"",
+  "onCreateCommand": "bash .devcontainer/scripts/on-create.sh",
 
-  "postStartCommand": "bash -lc \"export NVM_DIR=\\\"$HOME/.nvm\\\"; [ -s \\\"$NVM_DIR/nvm.sh\\\" ] && . \\\"$NVM_DIR/nvm.sh\\\"; nvm use 20 >/dev/null 2>&1 || true\"",
+  "postStartCommand": "bash .devcontainer/scripts/post-start.sh",
 
   "customizations": {
     "vscode": {
@@ -16,7 +16,6 @@
         "James-Yu.latex-workshop",
 
         "ms-python.python",
-        "ms-python.vscode-pylance",
         "ms-toolsai.jupyter",
         "charliermarsh.ruff",
         "ms-python.black-formatter",
@@ -25,7 +24,6 @@
         "streetsidesoftware.code-spell-checker"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
         // ----- LaTeX Workshop -----
         "latex-workshop.view.pdf.viewer": "tab",
         "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
@@ -40,6 +38,7 @@
               "-synctex=1",
               "-interaction=nonstopmode",
               "-file-line-error",
+              "-shell-escape",      // needed for minted
               "-xelatex",
               "-outdir=%OUTDIR%",
               "%DOC%"
@@ -50,15 +49,35 @@
           { "name": "latexmk (XeLaTeX)", "tools": ["latexmk-xe"] }
         ],
         "latex-workshop.latex.autoBuild.run": "onSave",
-        "latex-workshop.formatting.latex": "latexmk",
 
-        // ----- Python -----
+        // ----- Python / general editor -----
         "editor.formatOnSave": true,
-
-        // ----- General editor prefs -----
         "editor.fontSize": 14,
         "editor.tabSize": 2,
-        "files.autoSave": "onFocusChange"
+        "files.autoSave": "onFocusChange",
+
+        // ----- Spell checker: whitelist technical words -----
+        "cSpell.words": [
+          "texlive",
+          "xetex",
+          "xelatex",
+          "latexmk",
+          "biber",
+          "chktex",
+          "fvextra",
+          "minted",
+          "forest",
+          "ipykernel",
+          "numpy",
+          "pandas",
+          "matplotlib",
+          "pytest",
+          "ruff",
+          "prettier",
+          "nvm",
+          "gemini",
+          "devcontainer"
+        ]
       }
     }
   }

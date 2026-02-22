@@ -1,12 +1,8 @@
 [
   {
-    "key": "ctrl+shift+b",
-    "command": "-workbench.action.tasks.build"
-  },
-  {
-    "key": "ctrl+shift+b",
+    "key": "ctrl+/",
     "command": "latex-workshop.build",
-    "when": "editorTextFocus && editorLangId == latex"
+    "when": "editorLangId == latex"
   },
   {
     "key": "ctrl+alt+v",
