@@ -82,6 +82,8 @@ The role of additional weather variables, such as cloud cover, temperature, humi
 
 For this study, feature engineering will be a core focus in improving forecasting accuracy and interpretability. This study will explore the impact of different combinations of weather sensor data and engineered features, such as lagged values, rolling averages, and time-based encodings, on model performance. The study will also investigate the importance of key weather variables such as solar irradiance, temperature, humidity, wind speed, pressure, and cloud-related features in forecasting solar power generation. By testing how these features influence model predictions, the research will address the gap in the literature regarding systematic feature engineering and feature influence analysis. This directly supports the first research objective of preprocessing and engineering suitable weather-based and time-based features for solar power generation forecasting \parencite{CarvalhoJunior2025, TsaiLo2025, JnanaVarshitha2025, Pongphaw2025}.
 
+
+
 \section{2.4 Explainable Artificial Intelligence (XAI) in Solar Power Forecasting}
 
 Explainable Artificial Intelligence (XAI) has become a crucial area in machine learning, especially for complex forecasting tasks such as solar power prediction. While models such as LSTM, XGBoost, LightGBM, and CatBoost can provide high prediction accuracy, their black-box nature can make it difficult for users to understand how forecasts are produced. This lack of interpretability presents a challenge in solar power forecasting because grid operators, energy managers, and system planners may need to understand which weather variables are influencing the model's prediction. XAI methods such as SHAP and LIME are increasingly used to improve transparency, trust, and decision-making in ML-based energy forecasting \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025, Duvuru2026}.
@@ -95,6 +97,9 @@ The integration of XAI techniques such as SHAP and LIME is not only about improv
 Moreover, XAI techniques are particularly useful for addressing interpretability challenges associated with deep learning models such as LSTM. Because LSTM models learn internal sequential representations, it is not always clear which input variables or time steps are most influential. By using SHAP, researchers can analyse whether predictions are driven by lagged irradiance, wind speed, temperature, humidity, pressure, or time-based encodings. This level of transparency is important for improving trust in forecasting models and for supporting practical solar energy applications. However, XAI results should be treated carefully because they explain how the trained model uses features within a dataset, not necessarily the physical cause of changes in solar output \parencite{Eren2025, TsaiLo2025, Duvuru2026}.
 
 In conclusion, XAI techniques such as SHAP and LIME are essential for improving the interpretability and trustworthiness of solar power forecasting models. They allow researchers and users to understand how weather variables, such as solar irradiance, temperature, humidity, wind speed, and cloud-related features, contribute to model predictions. Furthermore, XAI supports feature selection and model refinement by identifying important features and reducing unnecessary complexity. For this study, the integration of XAI directly supports the third objective, which is to identify the best-performing forecasting model and analyse the influence of key weather sensor features on solar power generation prediction \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025, Duvuru2026}.
+
+
+
 
 \subsection{2.5 Dataset Diversity and Model Generalizability}
 
