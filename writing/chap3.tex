@@ -1,97 +1,447 @@
-% Updated 210719: 1932
 \chapter{METHODOLOGY}
 
-This chapter is composed of five main sections. Section 3.1 presents an overview of the proposed methodology, including a detailed flowchart of the experimental protocol. This flowchart visually outlines each step of the research process, from initial data collection to final analysis, providing a clear, step-by-step guide to how the research will be conducted. It also helps in illustrating the sequence of experimental procedures and how different phases of the study are interconnected. Section 3.2 discusses the criteria and procedures for selecting participants or data sources. It explains the sampling strategies, inclusion and exclusion criteria, and the methods employed to ensure a representative sample, enhancing the validity of the research findings. Section 3.3 describes the data collection methods used in the study. This section elaborates on each technique employed, such as surveys, interviews, or observations, and justifies their use in effectively gathering the necessary data. Section 3.4 outlines the data analysis procedures. It details the analytical techniques and tools used to interpret the data, whether involving statistical analysis for quantitative data or thematic analysis for qualitative data. Finally, Section 3.5 covers the ethical considerations of the research. It includes details on how informed consent was obtained, the steps taken to ensure the confidentiality and anonymity of participants, and the handling of any potential ethical issues throughout the study.
+This chapter describes the methodology used to develop a machine learning-based forecasting framework for solar power generation using weather sensor data. The methodology is designed to address the research objectives stated in Chapter 1, which are to preprocess and engineer weather sensor data, compare selected machine learning models under the same experimental procedure, and identify the best-performing forecasting model based on accuracy, generalizability on unseen weather sensor data, and feature influence analysis. The structure of this chapter follows a complete machine learning workflow, beginning with the overall pipeline structure, followed by data ingestion and cleaning, feature engineering, data splitting, feature expansion and selection, model training and evaluation, and chapter summary. This controlled methodology is important because previous studies show that solar forecasting performance depends on dataset characteristics, preprocessing procedures, engineered features, model selection, evaluation metrics, and interpretability analysis \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025}.
+
+\section{3.1 Overall Pipeline Structure}
+
+The overall pipeline structure provides a complete view of the methodology used in this study. Since this research focuses on Machine Learning-Based Forecasting of Solar Power Generation Using Weather Sensor Data, the methodology begins with weather sensor data and solar power generation data before proceeding to data cleaning, feature engineering, data splitting, feature selection, model training, model evaluation, generalizability analysis, and feature influence analysis. This pipeline is designed to ensure that the forecasting models are developed and compared under a consistent experimental procedure. A controlled pipeline is necessary because previous studies show that solar forecasting performance can be affected by dataset characteristics, weather sensor quality, preprocessing procedures, feature engineering strategies, model selection, and evaluation metrics \parencite{JnanaVarshitha2025, Bakht2025, Alhassan2025}.
+
+The proposed pipeline directly addresses the research gap identified in Chapter 1 and Chapter 2. Previous studies have applied various machine learning models for solar power forecasting, but their findings are often difficult to compare because they use different datasets, preprocessing methods, feature sets, forecasting horizons, and evaluation procedures. Therefore, this study applies the same dataset, preprocessing procedure, feature engineering process, data splitting strategy, and evaluation metrics across all selected models. This allows the comparison between Support Vector Regression, Random Forest, gradient boosting models, and Long Short-Term Memory networks to be more consistent and meaningful \parencite{ArellanosTafur2025, TsaiLo2025, CarvalhoJunior2025}.
+
+The pipeline also supports the three research objectives of this study. The first objective is addressed through weather sensor data ingestion, initial cleaning, and feature engineering. The second objective is addressed through model training, hyperparameter tuning, evaluation metrics, and comparative forecasting performance analysis. The third objective is addressed through best-performing model selection, generalizability analysis on unseen weather sensor data, and feature influence analysis using Explainable Artificial Intelligence. This ensures that each stage of the methodology is not isolated, but connected to the research objectives, research gap, and literature review \parencite{Eren2025, Duvuru2026, Ma2025}.
+
+The proposed methodology pipeline is summarised as follows:
+
+1. Weather sensor data and solar power generation data acquisition.
+2. Weather sensor data ingestion and initial cleaning.
+3. Weather-based and time-based feature engineering.
+4. Lagged weather and power feature construction.
+5. Rolling statistical feature construction.
+6. Data splitting and leakage prevention.
+7. Feature expansion and feature selection.
+8. Forecasting model training.
+9. Model evaluation and comparative performance analysis.
+10. Best-performing model selection.
+11. Generalizability analysis on unseen weather sensor data.
+12. Feature influence analysis using Explainable Artificial Intelligence.
+
+Overall, the pipeline is designed to produce a fair and interpretable forecasting framework. The use of consistent preprocessing, feature engineering, data splitting, evaluation metrics, and model comparison helps reduce methodological bias. In addition, the inclusion of generalizability analysis and Explainable Artificial Intelligence ensures that the final model is assessed not only based on prediction accuracy, but also on its reliability on unseen weather sensor data and its ability to provide meaningful insight into feature influence \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025}.
+
+\section{3.2 Weather Sensor Data Ingestion and Initial Cleaning}
+
+Weather sensor data ingestion refers to the process of importing the dataset into the analysis environment and preparing it for preprocessing. In this study, the dataset is expected to contain weather sensor variables such as solar irradiance, temperature, humidity, wind speed, pressure, cloud-related features, timestamp information, and solar power generation or photovoltaic output as the target variable. These variables are selected because previous studies show that meteorological variables and time-related information are important predictors of solar power generation \parencite{CarvalhoJunior2025, TsaiLo2025, Alhassan2025}.
+
+The initial cleaning process begins by checking the structure of the dataset. This includes identifying the number of records, available features, data types, duplicate entries, missing values, timestamp format, and abnormal readings. The timestamp column is converted into a suitable date-time format, and the data are arranged chronologically to preserve the time-series nature of the forecasting task. Chronological arrangement is important because solar power generation follows time-dependent patterns such as daily solar cycles, seasonal variation, and short-term weather persistence \parencite{Eren2025, TsaiLo2025, Duvuru2026}.
+
+Missing values and noisy readings are handled before feature engineering and model development. Missing data may occur due to sensor failure, communication interruption, or incomplete data recording. Depending on the extent of missingness, suitable methods such as removal, interpolation, forward filling, backward filling, mean imputation, or median imputation may be applied. Outliers are also examined because unrealistic values, such as negative irradiance, impossible temperature readings, or abnormal power output, can reduce model reliability. This cleaning process supports the first research objective by ensuring that the weather sensor data are reliable before being transformed into forecasting features \parencite{JnanaVarshitha2025, Pongphaw2025, Duvuru2026}.
+
+\section{3.3 Solar Power Forecasting Feature Engineering Framework}
+
+Feature engineering is a key stage in this study because raw weather sensor readings may not fully represent the patterns that influence solar power generation. Solar power output is affected not only by direct weather variables such as irradiance and temperature, but also by temporal patterns such as hour of day, seasonal variation, lagged weather conditions, and recent rolling trends. Therefore, this study applies a feature engineering framework that transforms raw data into more meaningful inputs for forecasting models \parencite{JnanaVarshitha2025, TsaiLo2025, CarvalhoJunior2025}.
+
+The feature engineering framework consists of four main feature groups: weather-based features, time-based features, lagged weather and power features, and rolling statistical features. Weather-based features represent meteorological conditions that directly or indirectly affect photovoltaic output. Time-based features capture predictable solar generation cycles. Lagged features represent previous weather or power conditions, while rolling statistical features summarise recent trends and fluctuations. Combining these feature groups is expected to improve the ability of machine learning models to capture both nonlinear and time-dependent relationships in solar power forecasting \parencite{Eren2025, Pongphaw2025, Duvuru2026}.
+
+This feature engineering framework also supports model comparison and interpretability. Since all selected models will be trained using the same feature preparation process, the comparison becomes more controlled and meaningful. In addition, engineered features can later be analysed using feature importance, SHAP, or LIME to determine which weather-based and time-based variables contribute most strongly to the prediction. This directly supports the research gap related to inconsistent feature engineering and limited feature influence analysis in previous forecasting studies \parencite{JnanaVarshitha2025, Bakht2025, TsaiLo2025}.
+
+\subsection{3.3.1 Weather-Based Features}
+
+Weather-based features are constructed from the available weather sensor variables in the dataset. These may include solar irradiance, ambient temperature, humidity, wind speed, atmospheric pressure, and cloud-related features. Solar irradiance is expected to be one of the most important variables because it directly represents the amount of solar energy reaching the photovoltaic panel. However, other weather variables are also important because they can influence panel efficiency, atmospheric transmission, cooling effects, and cloud-related fluctuations \parencite{CarvalhoJunior2025, Pongphaw2025, TsaiLo2025}.
+
+Temperature is included because photovoltaic panel efficiency can be affected by thermal conditions. Humidity and cloud-related features are considered because they may reduce the amount of solar radiation reaching the panel surface. Wind speed may influence panel temperature by providing cooling, while pressure may reflect broader atmospheric conditions. These weather-based features allow the models to capture both direct and indirect environmental effects on solar power generation \parencite{Eren2025, Alhassan2025, Duvuru2026}.
+
+The use of multiple weather-based features is important because solar power output is rarely determined by a single variable. Instead, photovoltaic generation is influenced by interactions among irradiance, temperature, humidity, wind speed, pressure, and cloud-related conditions. Therefore, this study includes weather-based features as the foundation of the forecasting model input. The effectiveness of these features will later be evaluated through model performance and feature influence analysis \parencite{JnanaVarshitha2025, Bakht2025, Pongphaw2025}.
+
+\subsection{3.3.2 Time-Based Features3.3.2 Time-Based Features}
+
+Time-based features are created from timestamp information to represent the temporal behaviour of solar power generation. Solar output follows predictable daily patterns because power generation usually increases after sunrise, reaches a peak around midday, and decreases toward evening. It also follows seasonal patterns due to changes in solar angle, daylight duration, and weather conditions throughout the year. Therefore, features such as hour of day, day of week, day of year, month, and season may be created from the timestamp column \parencite{TsaiLo2025, CarvalhoJunior2025, Eren2025}.
+
+To represent cyclical time patterns more effectively, sine and cosine transformations may be applied to selected time variables. For example, hour of day can be transformed into hour sine and hour cosine features so that the model understands the cyclic nature of a 24-hour day. Similarly, day of year or month can be encoded using cyclic transformations to represent seasonal repetition. This is important because ordinary numerical encoding may incorrectly treat the end and beginning of a cycle as distant values, even though they are temporally close \parencite{TsaiLo2025, JnanaVarshitha2025, Duvuru2026}.
+
+The inclusion of time-based features supports the first research objective by transforming raw timestamp information into useful forecasting inputs. These features are also important for traditional machine learning models such as SVR, Random Forest, XGBoost, LightGBM, and CatBoost because these models do not automatically understand temporal sequence unless time information is explicitly represented. Therefore, time-based feature construction is necessary to help the models capture daily and seasonal solar generation behaviour \parencite{JnanaVarshitha2025, Eren2025, Alhassan2025}.
+
+\subsection{3.3.3 Lagged Weather and Power Features}
+
+Lagged features are created to represent previous weather conditions and previous solar power output values. Since solar power generation is time-dependent, current output may be influenced by recent irradiance, temperature, humidity, wind speed, or previous power generation values. For example, if irradiance was high in the previous hour, the current output may still reflect similar weather conditions, depending on the forecasting horizon and weather stability. Therefore, lagged features can help capture short-term persistence in solar generation \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025}.
+
+The lag features may include previous values of solar irradiance, temperature, humidity, wind speed, pressure, and solar power output, depending on the dataset and forecasting design. If the target variable is included as a lag feature, care must be taken to ensure that only past values are used and that no future information leaks into the model input. This is especially important in forecasting because using future values would produce unrealistic model performance and reduce the validity of the evaluation \parencite{Duvuru2026, ArellanosTafur2025, CarvalhoJunior2025}.
+
+Lagged features are particularly useful for non-sequential machine learning models such as SVR, Random Forest, and boosting models because these models do not naturally process ordered sequences like LSTM. By adding lagged variables, these models can still learn recent temporal patterns from structured tabular data. This makes lagged feature construction an important bridge between time-series forecasting requirements and tabular machine learning approaches \parencite{JnanaVarshitha2025, Bakht2025, Alhassan2025}.
+
+\subsection{3.3.4 Rolling Statistical Features}
+
+Rolling statistical features are created to summarise recent patterns in weather sensor data and solar power output. These features may include rolling mean, rolling standard deviation, rolling minimum, rolling maximum, and rolling trend over selected time windows. For example, a rolling mean of irradiance can represent the average solar condition over the recent period, while a rolling standard deviation can represent weather variability or instability. These features are useful because solar output can fluctuate rapidly due to cloud movement and changing atmospheric conditions \parencite{Pongphaw2025, CarvalhoJunior2025, Eren2025}.
+
+Rolling statistical features can help reduce the effect of short-term noise and provide models with information about recent trends. For example, a sudden drop in irradiance may be better understood when compared with the rolling average of previous readings. Similarly, rolling temperature or humidity values may help the model understand whether current conditions are stable or changing. These features are especially useful for tree-based and boosting models because they can capture nonlinear relationships between recent trends and solar power output \parencite{JnanaVarshitha2025, Bakht2025, TsaiLo2025}.
+
+However, rolling features must be constructed carefully to avoid data leakage. Only past and current values should be used when calculating rolling statistics for a forecasted output. Future values must not be included in rolling windows because this would give the model information that would not be available during real forecasting. Therefore, rolling statistical features are generated using time-aware procedures that preserve forecasting realism and support valid model evaluation \parencite{Duvuru2026, ArellanosTafur2025, Ma2025}.
+
+\section{3.4 Data Splitting and Leakage Prevention}
+
+Data splitting is performed to divide the dataset into training, validation, and testing sets. Since this study involves solar power forecasting, the data should be split chronologically rather than randomly. Earlier records are used for model training, while later records are used for validation and testing. This approach reflects the real forecasting scenario where historical weather and power data are used to predict future solar output \parencite{Eren2025, TsaiLo2025, Duvuru2026}.
+
+A chronological split is also important for evaluating generalizability on unseen weather sensor data. If random splitting is used, future observations may be mixed into the training set, which can cause information leakage and produce overly optimistic results. By using later time periods as unseen test data, the study can better determine whether the trained model maintains reliable performance beyond the training period. This supports the third research objective, which focuses on generalizability and reliable performance on unseen data \parencite{JnanaVarshitha2025, ArellanosTafur2025, Ma2025}.
+
+Leakage prevention is applied throughout the data preparation and modelling process. Scaling parameters are fitted only on the training set and then applied to validation and testing sets. Feature selection and hyperparameter tuning are performed without using the final test set. Lagged and rolling features are created using only past information, and future observations are excluded from feature construction. This ensures that all models are evaluated fairly and that the test performance reflects realistic forecasting ability \parencite{Duvuru2026, CarvalhoJunior2025, Alhassan2025}.
+
+\section{3.5 Feature Expansion and Selection}
+
+Feature expansion and selection are performed after the initial feature engineering stage. Feature expansion increases the number of useful input variables by creating additional representations of weather and time information, while feature selection reduces unnecessary or weak variables to improve model performance, interpretability, and efficiency. This stage is important because solar power forecasting models can be affected by irrelevant, redundant, or noisy features \parencite{JnanaVarshitha2025, TsaiLo2025, Pongphaw2025}.
+
+The feature expansion and selection process is designed to address the research gap related to inconsistent feature engineering. Previous studies show that engineered weather-based and time-based features can improve forecasting performance, but the influence of different features is not always systematically examined. Therefore, this study uses a structured approach in which features are expanded, filtered, and selected before model training. This allows the study to examine which features are useful for forecasting and which may reduce model efficiency or interpretability \parencite{CarvalhoJunior2025, Eren2025, Duvuru2026}.
+
+The selection process also supports feature influence analysis. By reducing irrelevant or redundant features, the final feature set becomes easier to interpret using feature importance, SHAP, or LIME. This is important because the study does not only aim to achieve accurate predictions, but also to identify the key weather sensor features that influence solar power generation forecasting. Therefore, feature expansion and selection help connect predictive performance with interpretability \parencite{Bakht2025, JnanaVarshitha2025, Ma2025}.
+
+\subsection{3.5.1 Feature Expansion}
+
+Feature expansion refers to the creation of additional features from the original weather sensor and timestamp variables. In this study, feature expansion may include generating cyclic time features, lagged variables, rolling averages, rolling variability measures, and possible interaction features. For example, hour of day can be converted into sine and cosine features, while irradiance or temperature values can be lagged to represent recent weather history. This expands the available information for the forecasting models \parencite{TsaiLo2025, JnanaVarshitha2025, Eren2025}.
+
+The purpose of feature expansion is to help machine learning models capture nonlinear and time-dependent patterns more effectively. Solar power output is influenced by immediate weather conditions, recent weather trends, and repeating solar cycles. Therefore, expanded features allow models such as SVR, Random Forest, XGBoost, LightGBM, CatBoost, and LSTM to learn richer relationships between input variables and solar output. This is especially useful for tabular models that require explicit representation of time-series behaviour \parencite{Bakht2025, Alhassan2025, CarvalhoJunior2025}.
+
+However, feature expansion must be controlled because too many features may introduce redundancy, noise, or overfitting. Expanded features are therefore evaluated during the feature selection stage to determine whether they contribute useful information to the forecasting task. This ensures that feature expansion improves model learning without unnecessarily increasing model complexity \parencite{Duvuru2026, ArellanosTafur2025, Pongphaw2025}.
+
+\subsection{3.5.2 Feature Selection Strategy}
+
+The feature selection strategy is used to identify the most useful features for forecasting solar power generation. Since the expanded feature set may contain redundant or weak variables, feature selection helps reduce complexity and improve model interpretability. This is important because the study aims not only to compare forecasting accuracy, but also to analyse the influence of key weather sensor features \parencite{JnanaVarshitha2025, TsaiLo2025, Pongphaw2025}.
+
+The strategy may include two main stages: global pre-filtering and model-based feature selection. Global pre-filtering removes features with obvious quality issues, such as excessive missing values, constant values, low variance, or strong redundancy. Model-based feature selection then uses machine learning models or XAI methods to identify features that contribute meaningfully to prediction performance. This approach allows feature selection to be both data-driven and model-aware \parencite{Bakht2025, CarvalhoJunior2025, Ma2025}.
+
+Feature selection is also important for preventing overfitting, especially when the number of engineered features becomes large. A model trained on too many irrelevant variables may perform well on training data but poorly on unseen data. Therefore, the final feature set must balance predictive strength, generalizability, and interpretability. This supports the research objective of identifying a model that performs reliably on unseen weather sensor data and provides useful feature influence insights \parencite{Eren2025, ArellanosTafur2025, Duvuru2026}.
+
+\subsection{3.5.3 Stage 1: Weather and Time Feature Pre-Filtering}
+
+Stage 1 involves pre-filtering the weather-based and time-based features before model training. This step removes features that are unsuitable for forecasting due to missingness, invalid values, low variability, or redundancy. For example, a feature with too many missing values may be excluded if imputation would reduce reliability. Similarly, a constant or near-constant feature may be removed because it provides little useful information to the model \parencite{JnanaVarshitha2025, Duvuru2026, TsaiLo2025}.
+
+Weather and time feature pre-filtering also ensures that the selected variables match the physical and temporal nature of solar power generation. Features such as solar irradiance, temperature, humidity, wind speed, pressure, cloud-related variables, hour of day, day of year, lagged values, and rolling statistics are retained if they are relevant and available. Features that are not logically connected to the forecasting task or that introduce future information are excluded to preserve methodological validity \parencite{CarvalhoJunior2025, Pongphaw2025, Eren2025}.
+
+This stage improves the quality of the input dataset before more advanced feature selection is performed. By removing clearly unsuitable variables early, the model-based selection stage can focus on comparing potentially useful predictors. This makes the modelling process more efficient and reduces the risk of misleading feature influence results \parencite{Bakht2025, Alhassan2025, Ma2025}.
+
+\subsection{3.5.4 Stage 2: Model-Based Feature Selection}
+
+Stage 2 uses model-based techniques to identify features that contribute strongly to forecasting performance. Tree-based models such as Random Forest, XGBoost, LightGBM, and CatBoost can provide feature importance scores, which help identify variables that are frequently used in prediction. SHAP analysis may also be used to assess feature contribution more transparently by showing how each feature affects model output \parencite{JnanaVarshitha2025, Bakht2025, Pongphaw2025}.
+
+Model-based feature selection is useful because it considers how features behave within the actual forecasting models. A feature may appear weak in a simple correlation analysis but become useful when combined with other variables in a nonlinear model. For example, humidity or wind speed may not directly explain solar output alone, but they may become important when interacting with irradiance, temperature, or cloud-related variables. Therefore, model-based selection provides a more practical assessment of feature usefulness \parencite{TsaiLo2025, CarvalhoJunior2025, Eren2025}.
+
+The final selected feature set is used for model training and evaluation. This ensures that each selected model is trained using a consistent and relevant set of weather-based and time-based features. The results of model-based selection also provide a foundation for later feature influence analysis, where the study examines which weather sensor features most strongly affect solar power generation prediction \parencite{Duvuru2026, Ma2025, Alhassan2025}.
+
+\section{3.6 Forecasting Model Training and Evaluation}
+
+Forecasting model training and evaluation form the main experimental stage of this study. The selected machine learning models are trained using the prepared feature set and evaluated using the same dataset split, preprocessing procedure, feature engineering process, and evaluation metrics. This controlled approach is necessary because previous studies show that model performance can vary depending on dataset characteristics, feature design, and evaluation procedure \parencite{JnanaVarshitha2025, ArellanosTafur2025, Alhassan2025}.
+
+The models selected for this study represent different machine learning approaches. Support Vector Regression represents kernel-based regression, Random Forest represents tree-based ensemble learning, gradient boosting models represent boosting-based structured data learning, and LSTM represents sequential deep learning. This selection allows the study to compare models with different strengths and limitations in forecasting solar power generation from weather sensor data \parencite{Bakht2025, Eren2025, TsaiLo2025}.
+
+The evaluation process considers forecasting accuracy, comparative performance, generalizability on unseen weather sensor data, and feature influence analysis. The best-performing model is not selected based only on one metric, but based on overall performance and its ability to provide useful insights into feature influence. This is consistent with the study’s research gap, which emphasises that practical solar forecasting should consider accuracy, generalizability, and interpretability together \parencite{JnanaVarshitha2025, Duvuru2026, Ma2025}.
+
+\subsection{3.6.1 Support Vector Regression Model}
+
+Support Vector Regression is included as a baseline machine learning model for solar power forecasting. SVR can model nonlinear relationships through kernel functions and is suitable for regression problems involving continuous target variables such as solar power output. In this study, SVR provides a useful benchmark for assessing whether more complex models produce meaningful forecasting improvement \parencite{JnanaVarshitha2025, Alhassan2025, CarvalhoJunior2025}.
+
+The SVR model may use different kernel functions, such as radial basis function or polynomial kernel, depending on the dataset characteristics. Important hyperparameters include kernel type, penalty parameter, gamma, and epsilon. Since SVR does not naturally model temporal sequences, the effectiveness of SVR depends on the quality of engineered features such as lagged values, rolling statistics, and time-based encodings \parencite{Eren2025, TsaiLo2025, ArellanosTafur2025}.
+
+SVR is not expected to automatically outperform more advanced models, but it is important as a controlled baseline. If SVR performs well, this may indicate that the engineered features are strong enough to represent the forecasting task. If SVR performs poorly compared with ensemble or sequential models, this may suggest that the forecasting problem requires more flexible nonlinear or temporal modelling methods \parencite{Bakht2025, JnanaVarshitha2025, Alhassan2025}.
+
+\subsection{3.6.2 Random Forest Model}
+
+Pasted text.txt
+Document
+Pasted text (2).txt
+Document
+Pasted markdown (3).md
+File
+Firdaus_Wafer_Defect_Classification (1).pdf
+PDF
+analyse all the docs I provide
+
+first let me explain what each of the docs are:
+1. \chapter{LITERATURE REVIEW} - this is the literature review of my thesis (my title: Machine Learning-Based Forecasting of Solar Power Generation Using Weather Sensor Data)
+2. Authors Author full.. - this is my CSV, it contain journals and articles for my literature review. it has a relevant and not relevant articles. I want you to only focus on the relevant one.
+3. # Writing Styles for... - this is the writing guide from my lecturer. please make sure everything are align with this guide.
+4. Firdaus_Wafer_Defect_Classification... - this is my senior Thesis, please refer this.
+
+here are another information:
+
+1. this is my research gap,
+Based on the reviewed literature, machine learning has shown strong potential for forecasting solar power generation using weather sensor data. Previous studies have applied various forecasting approaches, including Support Vector Regression, Random Forest, XGBoost, LightGBM, CatBoost, LSTM, SARIMA, AutoML, and hybrid models, to capture the nonlinear relationship between meteorological variables and solar power output \parencite{JnanaVarshitha2025, Bakht2025, Eren2025, ArellanosTafur2025, Alhassan2025}. These studies show that weather variables such as solar irradiance, temperature, humidity, wind speed, pressure, and cloud-related features are important predictors of solar power generation.
+
+However, the literature also shows that there is no universally superior forecasting model. The performance of each model depends on the dataset characteristics, sensor quality, temporal resolution, forecasting horizon, feature selection process, and evaluation procedure. Although previous studies report strong forecasting performance using specific models, their findings are often based on different datasets, preprocessing methods, feature sets, and performance metrics. As a result, it remains difficult to determine which machine learning model is most suitable for a specific weather-sensor-based solar power forecasting task \parencite{TsaiLo2025, Alhassan2025, CarvalhoJunior2025}.
+
+Another gap identified in the literature is the inconsistent treatment of feature engineering. Solar power generation is influenced not only by raw weather sensor variables, but also by time-dependent patterns such as hour of day, daily solar cycles, seasonal variation, lagged weather values, and rolling averages. While previous studies have shown that feature engineering can improve forecasting accuracy, not all studies systematically examine how weather-based and time-based features affect model performance. Therefore, further investigation is needed to determine which features contribute most effectively to solar power generation forecasting \parencite{JnanaVarshitha2025, Pongphaw2025, TsaiLo2025}.
+
+Furthermore, many forecasting studies focus mainly on predictive accuracy, while less attention is given to model generalizability and feature influence. Complex models such as LSTM and gradient boosting models may achieve high accuracy, but their prediction process can be difficult to interpret. In addition, models that perform well during training may not necessarily maintain reliable performance on unseen weather sensor data. For practical solar energy forecasting, the selected model should not only produce accurate predictions, but also demonstrate reliable performance on unseen data and provide insight into the weather variables that influence solar power generation \parencite{Eren2025, Levent2025, Ozdemir2025}.
+
+Therefore, this study addresses these gaps by developing a machine learning-based forecasting framework for solar power generation using weather sensor data. The study will preprocess and engineer relevant weather-based and time-based features, compare selected machine learning models under the same dataset and evaluation procedure, and identify the best-performing model by analysing its forecasting accuracy, generalizability, and feature influence.
+
+2. this are my research objectives,
+
+1. To preprocess and engineer weather sensor data into suitable weather-based and time-based features for solar power generation forecasting.
+
+2. To evaluate and compare the performance of selected machine learning models for solar power generation forecasting using the same dataset, preprocessing procedure, and evaluation metrics.
+
+3. To identify the best-performing forecasting model and analyse its generalizability on unseen data and the influence of key weather sensor features on solar power generation prediction.
 
 
-% This chapter is composed of five main sections. Section \ref{OverviewMethod} present an overview about the approach taken in this thesis in developing the SDS.
-% Section \ref{BN_Variables}  presents a detailed account of the derivation of the sleepiness indicator that will be used as input into the machine learning.  
-% %The first part present the approach to improve the subjective sleepiness estimation by using the combination of KDE and LR technique. The mathematical background of KDE and LR test is explained in detail. 
-% Next, Section \ref{TechniqueBN} presents the framework of the proposed SDS. 
-% Then, Section \ref{WorkaroundMissingKss} depicts the approach adopted to minimise the dependecy between the variable embedded in the proposed system as well as to increase the prediction horizon.
-% Lastly, the section \ref{ComparativeStudy} explains in detail the criteria for validation metric, the types of validation, and the considerations taken in selecting evaluation metric.
+now I want you to help me,
 
-\section{Overview Of The Proposed Methodology}
+1. make sure my literature review is align with the research objectives and the research gap
+2. make sure my literature review is align with the writing styles
+3. make sure my literature review citations are all relevant based on the csv I provided
+4. make sure the arguments are strong enough
+based on everything that you said, please provide me a literature review that ready to copy
+wtf why is it only a paragraph
 
-% \label{OverviewMethod}
-%  \begin{figure}
-% 	\centering
-% 	\includegraphics[width=1\linewidth]{GeneralFlowChart}
-% 	\caption[Flowchart of the experimental protocol]
-% 	{Flowchart of the experimental protocol.}
-% 	\label{Fig: GeneralFlowChart}
-% \end{figure}
+### Objective 1: Preprocess and engineer weather sensor data **Current alignment: Good, but incomplete.** Section 2.3 discusses solar irradiance, temperature, humidity, wind speed, cloud cover, lagged values, rolling averages, and time-based features. This is directly aligned with Objective 1. Pasted text (2) But you should add a stronger subsection on **weather sensor data preprocessing**, not only feature engineering. Your objective says “preprocess and engineer,” but Chapter 2 mostly talks about engineering. Add discussion on: * missing sensor readings * noisy sensor values * outlier treatment * chronological splitting * train-only scaling * avoiding data leakage * temporal features such as hour, day, month, lag, rolling mean This is important because your senior’s thesis strongly emphasises a controlled pipeline, where preprocessing, feature selection, and evaluation are isolated properly to avoid biased results
+
+based on this, how should I fix my lit review?
+please provide me improvised version of the literature review that is ready to copy
+please dont change anything. keep the structures and substructures and the number of paragraph for each structures and substructures. olny improvise based on the requirement I asked
+can you convert it intp text
+analyse all the docs I provide first let me explain what each of the docs are: 
+
+ 
+1. Authors Author full.. - this is my CSV, it contain journals and articles for my literature review. it has a relevant and not relevant articles. I want you to only focus on the relevant one. 
+2. # Writing Styles for... - this is the writing guide from my lecturer. please make sure everything are align with this guide.
+3. Firdaus_Wafer_Defect_Classification... - this is my senior Thesis, please refer this.
+
+here are another information:
+
+1. this is my research gap,
+Based on the reviewed literature, machine learning has shown strong potential for forecasting solar power generation using weather sensor data. Previous studies have applied various forecasting approaches, including Support Vector Regression, Random Forest, XGBoost, LightGBM, CatBoost, LSTM, SARIMA, AutoML, and hybrid models, to capture the nonlinear relationship between meteorological variables and solar power output \parencite{JnanaVarshitha2025, Bakht2025, Eren2025, ArellanosTafur2025, Alhassan2025}. These studies show that weather variables such as solar irradiance, temperature, humidity, wind speed, pressure, and cloud-related features are important predictors of solar power generation.
+
+However, the literature also shows that there is no universally superior forecasting model. The performance of each model depends on the dataset characteristics, sensor quality, temporal resolution, forecasting horizon, feature selection process, and evaluation procedure. Although previous studies report strong forecasting performance using specific models, their findings are often based on different datasets, preprocessing methods, feature sets, and performance metrics. As a result, it remains difficult to determine which machine learning model is most suitable for a specific weather-sensor-based solar power forecasting task \parencite{TsaiLo2025, Alhassan2025, CarvalhoJunior2025}.
+
+Another gap identified in the literature is the inconsistent treatment of feature engineering. Solar power generation is influenced not only by raw weather sensor variables, but also by time-dependent patterns such as hour of day, daily solar cycles, seasonal variation, lagged weather values, and rolling averages. While previous studies have shown that feature engineering can improve forecasting accuracy, not all studies systematically examine how weather-based and time-based features affect model performance. Therefore, further investigation is needed to determine which features contribute most effectively to solar power generation forecasting \parencite{JnanaVarshitha2025, Pongphaw2025, TsaiLo2025}.
+
+Furthermore, many forecasting studies focus mainly on predictive accuracy, while less attention is given to model generalizability and feature influence. Complex models such as LSTM and gradient boosting models may achieve high accuracy, but their prediction process can be difficult to interpret. In addition, models that perform well during training may not necessarily maintain reliable performance on unseen weather sensor data. For practical solar energy forecasting, the selected model should not only produce accurate predictions, but also demonstrate reliable performance on unseen data and provide insight into the weather variables that influence solar power generation \parencite{Eren2025, Levent2025, Ozdemir2025}.
+
+Therefore, this study addresses these gaps by developing a machine learning-based forecasting framework for solar power generation using weather sensor data. The study will preprocess and engineer relevant weather-based and time-based features, compare selected machine learning models under the same dataset and evaluation procedure, and identify the best-performing model by analysing its forecasting accuracy, generalizability, and feature influence.
+
+2. this are my research objectives,
+
+research objective
+1. To preprocess and engineer weather sensor data into suitable weather-based and time-based features for solar power generation forecasting.
+
+2. To evaluate and compare the performance of selected machine learning models for solar power generation forecasting using the same dataset, preprocessing procedure, and evaluation metrics.
+
+3. To identify the best-performing forecasting model and analyse its generalizability on unseen data and the influence of key weather sensor features on solar power generation prediction.
+\end{enumerate}
+
+now (based on the updated literature review) I want you to help me,
+
+1. make sure the literature review is align with the research objectives and the research gap 
+2. make sure the literature review is align with the writing styles
+ 3. make sure the literature review citations are all relevant based on the csv I provided
+ 4. make sure the arguments are strong enough
+please provide me the fixed version
+
+senior thesis’s controlled-pipeline logic
+
+just refer firdaus strucutes, not his thesis contain
+now provide me the fixed literature review
+is it, {
+1. align with the research objectives and the research gap 
+2. align with the writing styles
+ 3. citations are all relevant based on the csv I provided
+ 4.  arguments are strong enough
+}
+?
+can you fix all the citations? make sure it 100% ready
+based on the update lit review, deos it satisfy this requirement:
+
+Based on the research gap, the following problems have been identified:
+
+\begin{enumerate}
+    \item \textbf{Definition of the Problem:} The problem statement clearly defines the issue that the research aims to address. It should describe the gap in knowledge, real-world challenges, or theoretical inconsistencies that necessitate investigation.
+
+    \item \textbf{Relation to Hypotheses:} The problem statement serves as the foundation for formulating hypotheses. It outlines the research issue, while the hypotheses provide testable predictions based on this problem.
+
+    \item \textbf{Best Practices for Writing a Problem Statement:}
+    \begin{itemize}
+        \item \textbf{Be clear and concise:} The problem statement should be straightforward, avoiding unnecessary jargon while effectively communicating the research issue.
+        \item \textbf{Explain the research gap:} Clearly identify what is missing in existing research and why addressing this gap is important.
+        \item \textbf{Define the scope:} Specify the boundaries of the problem, ensuring that it is neither too broad nor too narrow.
+        \item \textbf{Highlight significance:} Explain why solving this problem is important, including its potential impact on the field, industry, or society.
+        \item \textbf{Use evidence to support the problem:} Reference previous studies, statistics, or real-world examples to justify why the problem exists and why it requires investigation.
+        \item \textbf{Ensure alignment with research objectives:} The problem statement should align with the study’s aims, ensuring consistency throughout the research process.
+    \end{itemize}
+\end{enumerate}
+
+Below is the **citation-fixed version**. Copy this version.
+
+can you make it in text verison
+without changing anything, please change the citation into parencite command
+please make it in text version
+now provide me the fixed research objective and research gap that align with this literature review and satisfy every single requirement
+can you elaborate the research objectives
+can you elaborate the research hypothesis
+can you provide me the hypotheses that ready to be used in my thesis
+can you make it longer? 1 paragraph each
+can I use it directly for my thesis
+based on everything we dicussed, provide me
+
+1.1 Overview of the chapter
+1.2 Background of solar power generation
+1.3 Influence of Weather Sensor Data on Solar Power Generation
+  1.3.1  Key Weather Parameters Affecting Solar Power Output
+1.4 Machine Learning-Based Solar Power Forecasting with Explainable Artificial Intelligence
+  1.4.1 Machine Learning Approaches for Solar Power Forecasting
+  1.4.2 Explainable Artificial Intelligence for Forecasting Model Interpretation
+1.8  Scope of the Thesis
+1.9  Organisation of Thesis
+is it align with the literature review? the the argument strong already?
+
+can you fix it?
+can you make it in text version?
+Pasted text.txt
+Document
+all chapter 1.1 - 1.9 align with this requirements ?
+
+Pasted text.txt
+Document
+here is the missing part you asked for
+now by refering Fridaus chapter 3, please make me a chapter 3 structures based on my title and literature review and chapter 1
+now by refering Fridaus chapter 3 (only the structures, not its thesis contain), please make me a chapter 3 structures based on my title and literature review and chapter 1
+
+my title: Machine Learning-Based Forecasting of Solar Power Generation Using Weather Sensor Data
+
+j
+Pasted text.txt
+Document
+does it align and satisfies this requirements?
 
 
-This chapter presents the complete methodology for the fulfillment of the research objectives formulated in Chapter 1. Section 3.1 details the design methodology chosen to achieve these objectives, as illustrated in Figure 2.1. This figure provides a visual flowchart of the experimental protocol, which maps out each step in the research process, from initial hypothesis formulation to data collection, analysis, and conclusion drawing. This systematic depiction ensures clarity in the research approach and facilitates a better understanding of how each phase interlinks and contributes to the overall study goals.
+Pasted text.txt
+Document
+Pasted text (2).txt
+Document
+does it align with this? especially my literature review, research objective and research gap 
+now provide the the fixed methodology structures that is ready to be copied
+please make it in text version
+only the structures
+please refer this, make sure it align with chapter 1 and chapter 2 I gave 
+please make it based on my title: Machine Learning-Based Forecasting of Solar Power Generation Using Weather Sensor Data
+
+3.1 Overall Pipeline Structure
+
+why do I need this?
+is it align with my chapter 1 and chapter 2?
+Pasted text.txt
+Document
+Pasted text (2).txt
+Document
+CHAPTER 3 METHODOLOGY
+3.1 Overall Pipeline Structure
+3.2 Weather Sensor Data Ingestion and Initial Cleaning
+3.3 Solar Power Forecasting Feature Engineering Framework
+3.3.1 Weather-Based Features
+3.3.2 Time-Based Features
+3.3.3 Lagged Weather and Power Features
+3.3.4 Rolling Statistical Features
+3.4 Data Splitting and Leakage Prevention
+3.5 Feature Expansion and Selection
+3.5.1 Feature Expansion
+3.5.2 Feature Selection Strategy
+3.5.3 Stage 1: Weather and Time Feature Pre-Filtering
+3.5.4 Stage 2: Model-Based Feature Selection
+3.6 Forecasting Model Training and Evaluation
+3.6.1 Support Vector Regression Model
+3.6.2 Random Forest Model
+3.6.3 Gradient Boosting Models
+3.6.4 Long Short-Term Memory Network Model
+3.6.5 Hyperparameter Tuning
+3.6.6 Evaluation Metrics
+3.6.7 Comparative Forecasting Performance Analysis
+3.6.8 Generalizability Analysis on Unseen Weather Sensor Data
+3.6.9 Feature Influence Analysis Using Explainable Artificial Intelligence
+3.7 Chapter Summary
 
 
 
-\subsection{Research Design}
-This subsection should describe the overall framework of the study, whether it is experimental, correlational, or descriptive, and explain the rationale behind the chosen design.
+based on all this, complete the chapter 3. 
 
-\subsection{Participants}
-\subsubsection{Sampling Strategy}
-Detail how participants were selected, including the sampling methods and any demographic characteristics of interest.
-\subsubsection{Inclusion and Exclusion Criteria}
-Define the criteria for including or excluding participants in the study.
+1. dont change the stuctures and substructures of the chapter three
+2. make at least 3 citation for each structures, make sure to only use the relevant csv I provide and dont generic the reference
+3. make sure it aligns with the chapter 1 and chapter 2
+4. make sure the arguments are strong
 
-\subsection{Data Collection Methods}
-\subsubsection{Quantitative Data}
-Describe the instruments and tools used to collect numerical data, such as surveys or standardized tests.
-\subsubsection{Qualitative Data}
-Discuss the methods used to gather textual or observational data, like interviews or focus groups.
+are you using the relevant csv? 
+please make the chapter 3 in text format
+is it align with my chapter 1 and chapter 3? is the argument strong enough?
+can you make a table in 3.1
+table of a cross-reference of pipeline stages, research objectives and chapter sections
+can you show it in text format
+now provide me the full chapter 3
+can you redo the 3.1
+can you make full chapter that ready to be copied
 
-\subsection{Data Analysis}
-\subsubsection{Statistical Analysis}
-Outline the statistical techniques that will be applied to analyze the quantitative data.
-\subsubsection{Thematic Analysis}
-Describe how qualitative data will be analyzed, including any coding schemes or software used.
+\subsection{3.6.3 Gradient Boosting Models}
 
-\subsection{Ethical Considerations}
-Discuss how ethical issues were addressed, including participant consent and data privacy measures.
+Gradient boosting models, including XGBoost, LightGBM, and CatBoost, are included because they are effective for structured data and can model complex nonlinear relationships. These models build trees sequentially, where each new tree attempts to correct the errors made by previous trees. This makes them suitable for learning interactions between weather sensor variables and solar power output \parencite{JnanaVarshitha2025, Bakht2025, Alhassan2025}.
 
-\section{Results} % Example of another chapter
-\lipsum[1] % Filler text for demonstration
+XGBoost is considered for its strong predictive performance and regularisation capability. LightGBM is considered for its efficiency in handling structured datasets, while CatBoost is considered for its ability to model complex feature interactions. These models are useful in the context of solar power forecasting because weather variables may interact in nonlinear ways, and the relationship between input features and solar output may vary across time and weather conditions \parencite{CarvalhoJunior2025, Pongphaw2025, TsaiLo2025}.
+
+Although gradient boosting models may achieve strong forecasting performance, they can be difficult to interpret without explanation methods. Therefore, their outputs may be analysed using feature importance and XAI methods such as SHAP or LIME. This supports the study’s objective of identifying the best-performing model while also analysing the influence of key weather sensor features on solar power generation prediction \parencite{JnanaVarshitha2025, Eren2025, Duvuru2026}.
+
+\subsection{3.6.4 Long Short-Term Memory Network Model}
+
+Long Short-Term Memory is included as a sequential deep learning model for solar power forecasting. LSTM is suitable for time-series data because it can learn temporal dependencies from ordered input sequences. This is relevant to solar power generation because current output may be influenced by previous irradiance, weather conditions, and daily or seasonal patterns \parencite{Eren2025, TsaiLo2025, Duvuru2026}.
+
+If LSTM is implemented, the dataset must be reshaped into a sequential format. This means that input data are arranged into time windows so that the model can learn from previous observations before predicting future solar power output. The sequence length, number of LSTM units, dropout rate, learning rate, batch size, and number of epochs may be tuned during model development \parencite{TsaiLo2025, Duvuru2026, Ma2025}.
+
+Although LSTM is powerful for temporal modelling, it requires more data, tuning, and computational resources than traditional machine learning models. Therefore, it should not be assumed to be automatically superior. Its performance must be compared fairly with SVR, Random Forest, and gradient boosting models using the same dataset, preprocessing procedure, and evaluation metrics \parencite{ArellanosTafur2025, Eren2025, CarvalhoJunior2025}.
+
+\subsection{3.6.5 Hyperparameter Tuning}
+
+Hyperparameter tuning is performed to improve the performance of each selected model. Since different models have different learning mechanisms, their hyperparameters must be selected carefully. For SVR, important hyperparameters may include kernel type, C, gamma, and epsilon. For Random Forest, the number of trees, maximum depth, minimum samples split, and minimum samples leaf may be tuned. For gradient boosting models, learning rate, number of estimators, maximum depth, and subsampling parameters may be adjusted \parencite{JnanaVarshitha2025, Bakht2025, Alhassan2025}.
+
+For LSTM, hyperparameter tuning may include the number of layers, number of units, dropout rate, batch size, learning rate, sequence length, and number of epochs. These parameters affect how the model learns temporal dependencies and how well it generalizes to unseen data. Because LSTM can overfit when not properly tuned, validation performance should be monitored during training \parencite{Eren2025, TsaiLo2025, Duvuru2026}.
+
+The tuning process is conducted using only the training and validation sets. The test set is not used during tuning to prevent data leakage and biased performance estimation. Depending on the implementation, tuning may be conducted using manual tuning, grid search, random search, or another suitable optimisation method. This ensures that the final model comparison remains fair and methodologically consistent \parencite{ArellanosTafur2025, CarvalhoJunior2025, Ma2025}.
+
+\subsection{3.6.6 Evaluation Metrics}
+
+The forecasting models are evaluated using regression-based performance metrics. The selected metrics may include Mean Absolute Error, Root Mean Squared Error, Mean Absolute Percentage Error, and coefficient of determination. These metrics provide different perspectives on forecasting performance, including average absolute error, sensitivity to large errors, percentage-based error, and the proportion of variance explained by the model \parencite{JnanaVarshitha2025, Alhassan2025, Duvuru2026}.
+
+Mean Absolute Error measures the average magnitude of prediction errors without considering their direction. Root Mean Squared Error gives greater penalty to large errors and is useful for identifying models that produce large forecasting deviations. Mean Absolute Percentage Error expresses error in percentage form, which can help interpret forecasting performance relative to actual solar power output. The coefficient of determination indicates how well the model explains the variation in solar power generation \parencite{Bakht2025, TsaiLo2025, CarvalhoJunior2025}.
+
+The evaluation metrics are applied consistently across all selected models to ensure fair comparison. A model with lower MAE, RMSE, and MAPE and higher R² is generally considered to have stronger forecasting performance. However, model selection will also consider generalizability and interpretability, because a model that performs well on one metric may not necessarily be the most reliable or useful for practical forecasting \parencite{ArellanosTafur2025, Eren2025, JnanaVarshitha2025}.
+
+\subsection{3.6.7 Comparative Forecasting Performance Analysis}
+
+Comparative forecasting performance analysis is conducted to evaluate how each selected model performs under the same experimental conditions. The models are compared using the same dataset, preprocessing procedure, feature engineering process, data split, and evaluation metrics. This controlled comparison is important because previous studies often report model performance using different datasets and methods, making direct comparison difficult \parencite{JnanaVarshitha2025, ArellanosTafur2025, Alhassan2025}.
+
+The comparison considers both error-based and goodness-of-fit metrics. Models are ranked according to their forecasting performance, but the ranking is not based on a single metric only. For example, a model with the lowest RMSE may still be evaluated against MAE, MAPE, R², training-test performance gap, and interpretability potential. This provides a more balanced assessment of model suitability \parencite{Bakht2025, CarvalhoJunior2025, TsaiLo2025}.
+
+The purpose of this analysis is to determine which model is most suitable for the specific weather-sensor-based solar power forecasting task in this study. If a simpler model performs similarly to a more complex model, the simpler model may be preferred due to lower complexity and easier interpretation. If a more complex model provides clear performance improvement and acceptable generalizability, it may be selected as the best-performing model \parencite{Eren2025, Duvuru2026, Ma2025}.
+
+\subsection{3.6.8 Generalizability Analysis on Unseen Weather Sensor Data}
+
+Generalizability analysis is conducted to determine whether the trained models can maintain reliable performance on unseen weather sensor data. This is important because a model may perform well during training but fail when applied to new data. In this study, unseen data refer to the test set that is separated chronologically from the training data and not used during model fitting or hyperparameter tuning \parencite{Eren2025, ArellanosTafur2025, Ma2025}.
+
+The generalizability analysis compares training, validation, and testing performance. A small difference between training and testing error suggests that the model generalizes well, while a large gap may indicate overfitting. This analysis helps determine whether the model has learned meaningful forecasting patterns or has simply memorised training data. This directly supports the third research objective, which focuses on generalizability on unseen weather sensor data \parencite{JnanaVarshitha2025, CarvalhoJunior2025, Duvuru2026}.
+
+The analysis may also examine prediction errors across different weather or time conditions, such as high irradiance periods, cloudy periods, low power generation periods, morning periods, midday periods, and evening periods. This provides deeper insight into when the model performs well or poorly. Such analysis is important because solar power forecasting performance may vary across different meteorological and temporal conditions \parencite{TsaiLo2025, Pongphaw2025, Eren2025}.
+
+\subsection{3.6.9 Feature Influence Analysis Using Explainable Artificial Intelligence}
+
+Feature influence analysis is conducted to interpret the best-performing forecasting model and identify which weather sensor features contribute most strongly to solar power generation prediction. This is necessary because complex models such as LSTM and gradient boosting models may produce accurate forecasts but can be difficult to interpret. XAI methods help explain how features such as solar irradiance, temperature, humidity, wind speed, pressure, cloud-related variables, lagged values, and time-based features influence model predictions \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025}.
+
+SHAP may be used to analyse both global and local feature contributions. Global SHAP analysis can show the overall ranking of important features, while local SHAP explanations can show how individual features affect a specific prediction. If LIME is applied, it can provide local explanations for selected prediction cases by approximating the complex model with a simpler interpretable model. These methods help improve the transparency and trustworthiness of the forecasting model \parencite{Pongphaw2025, Duvuru2026, Ma2025}.
+
+The feature influence results will be interpreted carefully. XAI results explain how the trained model uses input features within the dataset, but they do not automatically prove physical causality. For example, if SHAP shows that humidity is important, this means the model relied on humidity during prediction, not that humidity alone physically caused the change in solar power output. This interpretation is aligned with the study’s objective of analysing feature influence without making unsupported causal claims \parencite{JnanaVarshitha2025, TsaiLo2025, Eren2025}.
+
+\section{3.7 Chapter Summary}
+
+This chapter presented the methodology used to develop a machine learning-based forecasting framework for solar power generation using weather sensor data. The chapter began with the overall pipeline structure, followed by weather sensor data ingestion and initial cleaning. It then explained the solar power forecasting feature engineering framework, including weather-based features, time-based features, lagged weather and power features, and rolling statistical features. These stages support the first research objective by preparing weather sensor data into suitable forecasting inputs \parencite{JnanaVarshitha2025, TsaiLo2025, CarvalhoJunior2025}.
+
+The chapter also described data splitting and leakage prevention, feature expansion and selection, and model training and evaluation. These stages support the second research objective by ensuring that selected machine learning models are compared under the same dataset, preprocessing procedure, feature engineering process, and evaluation metrics. The selected models include Support Vector Regression, Random Forest, gradient boosting models, and Long Short-Term Memory networks, which represent different machine learning approaches for solar power forecasting \parencite{Bakht2025, Alhassan2025, Eren2025}.
+
+Finally, this chapter explained the procedures for comparative forecasting performance analysis, generalizability analysis on unseen weather sensor data, and feature influence analysis using Explainable Artificial Intelligence. These stages support the third research objective by identifying the best-performing model and analysing whether it can maintain reliable performance on unseen data while providing useful insight into key weather sensor features. Overall, the methodology is designed to address the research gap by developing a consistent, fair, and interpretable machine learning-based solar power forecasting framework \parencite{ArellanosTafur2025, Duvuru2026, Ma2025}.
 
 
 
 
-\section{Preparation For Comparative Study}
-\label{ComparativeStudy}
-
-\subsection{Evaluation Criteria }
-\label{Data preparation}    
-
-You may explain about the dataset here.
 
 
 
-\subsection{Subject-wise Cross Validation for Performance Evaluation}    
 
-you may explain how to validate
-
-
-
-\subsection{Evaluation Metric}
-
-
-
-\subsubsection{Box-Whisker Plot}
-
-Box-whiskers plot and average \Fmeasure of the 24 selected subjects are reported in this study. Each box plot displays the median, the first and third quartile, as well as the minimum and maximum values. 
-The notches around each median give a rough idea on the significantly varied medians: if the notches do not overlap, the medians differ at  5\% significance level. 
-%An outlier (shown as red cross) is identified when a point exceeds the 25\superscripts{th} and 75\superscripts{th} percentiles. 
-%The interval corresponds to approximately ±2.7$\sigma$ and 99.3\% coverage upon normally distributed data. The plotted whisker extends to the adjacent value, whereby the most extreme data value is not an outlier [60].
-%% Please rephrase ^: From thesis: The Art of Heart Rate Variability Driver Fatigue Application
-
-
-\subsubsection{Statistical Analyses}
-
-The paired t-test was applied to ascertain the significant variance between the average \Fmeasure  of the proposed system and other techniques \cite{Demsar_2006}. The presence of outlier was determined by inspecting the boxplot for a value exceeding 1.5 box-length from the edge of the box in a boxplot. For each classifier performance, the normal distribution of the \Fmeasure  score was examined using Shapiro-Wilk’s test. As for \Fmeasure  performance that is not normally distributed, two t-tests were conducted by including and excluding the value of the outlier. The statistical significance was fixed at \LeqPointFive.
-
-
-\section{Chapter Summary}
-This chapter is composed up of five primary sections. The first section discussed the approach taken in this thesis in developing the system.
 
 

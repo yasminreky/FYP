@@ -1,166 +1,125 @@
 \chapter{INTRODUCTION}
-helo world 
-% \RequirePackage{siunitx}
-A container with an initial volume of \SI{10}{\liter} expands to \SI{10.5}{\liter} when its temperature is increased from \SI{9}{\kelvin} to \SI{10}{\kelvin}. Calculate the coefficient of volume expansion of the container's material.
 
-Sleepiness is defined as the increased sleep propensity due to decrease in physiological arousal \parencite{Lal_2005as, Vassalli2009}. 	Sleepiness is a term that indicates the perceived need or readiness to sleep  \parencite{Amso_2015}.
+\section{1.1  Overview of the Chapter}
 
-\par The introduction chapter of a thesis sets the stage for the entire research, providing the reader with essential background information, the context of the study, and a clear outline of the research objectives and significance. Each section within the introduction builds upon the previous one, gradually guiding the reader toward understanding the research problem and the purpose of the study. This section can be divided in multiple subsection to organize the information logically.
+This chapter introduces the research background, motivation, problem context, research objectives, scope, and overall organisation of the thesis. The study focuses on Machine Learning-Based Forecasting of Solar Power Generation Using Weather Sensor Data. Solar power generation is an important renewable energy source, but its output is highly dependent on weather and environmental conditions. This variability creates challenges for energy planning, grid stability, storage management, and solar energy integration into power systems. Therefore, accurate forecasting is needed to estimate future solar power generation and support more reliable energy management.
 
-\section{Background}
+The chapter begins by discussing the background of solar power generation and the role of weather sensor data in influencing photovoltaic output. It then explains the key weather parameters that affect solar power generation, including solar irradiance, temperature, humidity, wind speed, pressure, and cloud-related features. The chapter also introduces machine learning as a forecasting approach and explains how Explainable Artificial Intelligence can support model interpretation by identifying the influence of key weather sensor features on solar power prediction.
 
-In this section, you aim to provide the reader with the foundational knowledge necessary to understand the broader context of your research. This includes explaining key concepts, relevant terminology.
+The chapter further outlines the scope of the thesis by defining the boundaries of the study. This research is limited to preprocessing and engineering weather sensor data, comparing selected machine learning models using the same dataset, preprocessing procedure, feature engineering process, and evaluation metrics, and analysing the best-performing model in terms of forecasting accuracy, generalizability on unseen weather sensor data, and feature influence. Finally, the chapter presents the organisation of the thesis to provide a clear overview of how the research is structured.
 
-\section{The Best Thing to Learn about Computer Programming}
+\section{1.2  Background of Solar Power Generation}
 
-The most valuable aspect of learning computer programming is not the mastery of a specific language or framework, but rather the development of computational thinking and problem-solving skills. Programming teaches one how to break down complex, multi-faceted problems into smaller, manageable components—a process known as decomposition. Furthermore, it fosters the ability to think abstractly, allowing for the creation of reusable solutions and the understanding of underlying patterns that transcend individual lines of code. This mindset is universally applicable, extending far beyond the realm of software development into any field that requires logical reasoning and structured analysis.
+Solar power generation is one of the most important sources of renewable energy because it converts sunlight into electrical energy using photovoltaic systems. As the demand for clean and sustainable energy increases, solar energy has become more significant due to its ability to reduce dependence on fossil fuels and lower environmental impact. Photovoltaic systems generate electricity when solar radiation is absorbed by solar panels and converted into electrical current. However, unlike conventional power generation, solar power output is naturally intermittent because it depends strongly on weather and environmental conditions.
 
+The main challenge in solar power generation is the variability of output. Solar energy production changes throughout the day due to the movement of the sun, with output usually increasing after sunrise, reaching a peak around midday, and decreasing towards evening. It also changes across seasons due to differences in solar angle, daylight duration, and weather patterns. In addition, sudden changes in cloud cover, temperature, humidity, or wind conditions can cause short-term fluctuations in solar power output. Therefore, accurate forecasting is important to support grid stability, energy scheduling, and storage management \parencite{JnanaVarshitha2025, Bakht2025, Eren2025, Alhassan2025}.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=15cm]{Writing research research proposal.png}
-	\caption[Research Proposal Flow Chart]
-	{The image is a flow chart titled "Research Proposal Flow Chart," designed to guide the development of a research proposal through six key stages: Introduction, Literature Review, Methodology, Preliminary Data, Statement of Limitations, and Conclusion. Each stage addresses specific questions like "What?", "Why?", and "How?", ensuring a comprehensive and structured approach. The chart outlines the progression from defining the research question and reviewing relevant literature, to detailing the methodology, presenting preliminary data, discussing limitations, and concluding with the significance of the research. This visual tool is essential for researchers in planning and articulating their study in a coherent and logical manner.. Figure adapted from \cite{Dorsett2010}.}
-	\label{fig:ExxonSpreading}
-\end{figure}
-%
+Forecasting solar power generation allows energy operators and system planners to estimate future power output based on historical generation data and weather sensor readings. This is important because inaccurate forecasts may lead to energy imbalance, inefficient storage use, and difficulties in integrating solar energy into electrical grids. Traditional forecasting methods may be useful for stable and repetitive patterns, but solar power generation often involves nonlinear and time-dependent relationships between weather variables and power output. As a result, machine learning has become a promising approach because it can learn complex patterns from data and improve forecasting performance under variable weather conditions \parencite{TsaiLo2025, CarvalhoJunior2025, ArellanosTafur2025}.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=15cm]{Writing research research proposal.png}
-	\caption[]
-	{DKLFDLKSFHASLDHKJS}
-	\label{fig:ExxonSpreading1}
-\end{figure}
+\section{1.3  Influence of Weather Sensor Data on Solar Power Generation}
 
-% \subsection{Concept and Terminology Explanation}
+Weather sensor data play a central role in solar power forecasting because photovoltaic output is strongly influenced by meteorological conditions. Weather sensors can record variables such as solar irradiance, ambient temperature, humidity, wind speed, atmospheric pressure, and cloud-related conditions. These variables provide important information about the environmental conditions affecting solar panels. Since solar power generation depends on both the amount of sunlight reaching the panel and the operating condition of the photovoltaic system, weather sensor data are essential for developing accurate forecasting models.
 
-% In this subsection, you should broadly explain the key concepts and terminology that are central to your research. This will help ensure that readers who are not familiar with the topic can follow along.
+Solar irradiance is generally one of the most influential variables because it directly represents the amount of solar energy received by the photovoltaic panel. However, solar power output is not determined by irradiance alone. Temperature can affect panel efficiency, while humidity and cloud cover can influence the amount of solar radiation that reaches the surface. Wind speed may also affect panel temperature through cooling effects. Pressure and other atmospheric conditions may indirectly reflect weather changes that influence solar generation. Therefore, using multiple weather sensor variables can help forecasting models capture both direct and indirect effects on solar power output \parencite{CarvalhoJunior2025, Pongphaw2025, TsaiLo2025}.
 
+In addition to raw weather variables, solar power forecasting also requires time-based information because solar generation follows predictable daily and seasonal patterns. Features such as hour of day, day of year, month, lagged weather values, and rolling averages can help represent temporal behaviour in the dataset. These features allow forecasting models to capture daily solar cycles, seasonal variation, and short-term weather persistence. Therefore, weather sensor data must be properly preprocessed and engineered before being used in machine learning models to ensure that the forecasting process is reliable and meaningful \parencite{JnanaVarshitha2025, Eren2025, Duvuru2026}.
 
+\subsection{1.3.1  Key Weather Parameters Affecting Solar Power Output}
 
+Several weather parameters are important in forecasting solar power output. Solar irradiance is the most direct factor because photovoltaic systems depend on sunlight to generate electricity. Higher irradiance generally results in higher power output, while lower irradiance reduces generation. However, irradiance can change rapidly due to cloud movement, atmospheric conditions, and seasonal variation. Therefore, irradiance data are often considered a core input variable in solar power forecasting models \parencite{CarvalhoJunior2025, TsaiLo2025}.
 
-\section{ Importance and Relevance} 
-\label{SplitScheduleExplain}
+Temperature is another important weather parameter because it affects the operating efficiency of photovoltaic panels. Although sunlight increases power generation, high panel temperature can reduce photovoltaic efficiency. Ambient temperature can therefore influence the relationship between solar irradiance and actual power output. Humidity can also affect solar generation because higher moisture levels in the atmosphere may reduce the amount of solar radiation reaching the panel. Similarly, cloud-related variables are important because cloud cover can cause sudden drops in irradiance and create fluctuations in solar output \parencite{Pongphaw2025, Eren2025}.
 
-In this subsection, explain why the topic is important and relevant. Include statistics, the impact of the topic on society, and any related government policies or initiatives. This helps to justify why your research is necessary and valuable.
+Wind speed and atmospheric pressure may also contribute to forecasting performance. Wind speed can affect the thermal condition of solar panels by providing cooling, which may influence panel efficiency. Atmospheric pressure can reflect broader weather conditions and may help models capture environmental changes related to solar generation. In addition to these weather parameters, time-based features such as hour of day, seasonal indicators, lagged values, and rolling averages are useful for representing temporal patterns in solar power generation. These variables allow forecasting models to learn both weather-based and time-dependent patterns more effectively \parencite{JnanaVarshitha2025, TsaiLo2025, Duvuru2026}.
 
+\section{1.4 Machine Learning-Based Solar Power Forecasting with Explainable Artificial Intelligence}
 
+Machine learning-based forecasting has become an important approach in solar power generation studies because it can model complex and nonlinear relationships between weather sensor data and solar output. Unlike simple linear approaches, machine learning models can learn interactions among multiple weather variables and identify patterns that may not be obvious through traditional methods. This is useful in solar forecasting because photovoltaic output is affected by several interacting factors, including irradiance, temperature, humidity, wind speed, cloud cover, pressure, and time-dependent patterns \parencite{JnanaVarshitha2025, Bakht2025, Alhassan2025}.
 
+However, selecting the most suitable machine learning model remains a challenge. Previous studies have applied various models, including Support Vector Regression, Random Forest, XGBoost, LightGBM, CatBoost, Long Short-Term Memory networks, SARIMA, AutoML, and hybrid models. These studies show that different models may perform well under different dataset conditions, but there is no universally superior model. The performance of each model depends on dataset characteristics, sensor quality, temporal resolution, preprocessing method, feature construction, forecasting horizon, and evaluation metrics \parencite{ArellanosTafur2025, TsaiLo2025, CarvalhoJunior2025}.
 
-\section{Motivation}
+Explainable Artificial Intelligence is also important in solar power forecasting because many machine learning models are difficult to interpret. Models such as LSTM and gradient boosting methods can produce strong predictions, but their internal decision-making process may not be directly understandable. XAI methods such as SHAP and LIME can help explain how weather sensor features contribute to model predictions. This allows researchers to identify which variables, such as irradiance, temperature, humidity, wind speed, pressure, cloud-related features, lagged values, or time-based features, have stronger influence on solar power generation prediction \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025}.
 
-The motivation section of a thesis is crucial as it articulates the rationale behind the research, highlighting its importance and relevance. This section will help connects the background information with the research objectives by explaining why the study is necessary and what gaps it aims to fill. 
+\subsection{1.4.1 Machine Learning Approaches for Solar Power Forecasting}
 
-This section (and its subsection) builds a compelling case for the research by discussing the potential benefits and impact of the findings, thereby justifying the effort and resources invested in the study. The motivation section ensures that the reader understands the significance of the problem being addressed and the value that the proposed solutions can bring to the field.
+Different machine learning approaches have been used for solar power forecasting. Support Vector Regression is often used as a baseline regression model because it can capture nonlinear relationships through kernel functions. Random Forest is useful because it combines multiple decision trees and can model nonlinear interactions between weather variables. Gradient boosting models such as XGBoost, LightGBM, and CatBoost have also been widely applied because they can handle structured datasets and learn complex feature interactions through sequential error correction \parencite{JnanaVarshitha2025, Bakht2025, Alhassan2025}.
 
-You can give a brief overview or compact explaination from the literature review, what is there, but what is still missing. or the justification of why you insist of using some technique
+Deep learning models, especially Long Short-Term Memory networks, are suitable for time-series forecasting because they can learn sequential dependencies from historical data. LSTM models are useful when solar power output depends on previous weather conditions, previous irradiance values, or other time-dependent patterns. However, LSTM models often require more data, computational resources, and careful tuning compared with traditional machine learning models. Therefore, their performance should be evaluated fairly against simpler models rather than assuming that deep learning will always be superior \parencite{Eren2025, TsaiLo2025, Duvuru2026}.
 
+A major issue in previous studies is that model performance is often reported using different datasets, preprocessing methods, feature sets, forecasting horizons, and evaluation metrics. This makes it difficult to determine whether one model is genuinely better than another or whether the performance difference is caused by differences in experimental design. Therefore, this study compares selected machine learning models using the same dataset, preprocessing procedure, feature engineering process, and evaluation metrics such as RMSE, MAE, MAPE, and R², where applicable. This approach supports a fair model comparison and directly addresses the research gap concerning the lack of consistent evaluation in weather-sensor-based solar power forecasting.
 
-\subsection{Some subsection to decompose your explaination}
+\subsection{1.4.2 Explainable Artificial Intelligence for Forecasting Model Interpretation}
 
+Explainable Artificial Intelligence is used to improve the transparency and interpretability of machine learning models. In solar power forecasting, XAI is important because users may need to understand why a model predicts a certain amount of solar power under specific weather conditions. Without explainability, a model may produce accurate forecasts but provide limited insight into the weather factors that influence the prediction. This can reduce trust and limit the practical usefulness of the model in real-world solar energy applications.
 
+SHAP is one of the commonly used XAI methods for feature attribution. It assigns contribution values to input features and helps identify how strongly each feature influences the model prediction. In solar forecasting, SHAP can be used to analyse the influence of solar irradiance, temperature, humidity, wind speed, cloud-related features, lagged values, and time-based variables. LIME can also be used to explain individual predictions by approximating a complex model with a simpler local model. These methods can support both global and local interpretation of forecasting models \parencite{JnanaVarshitha2025, Eren2025, TsaiLo2025, Pongphaw2025}.
 
+However, XAI results must be interpreted carefully. Feature attribution methods explain how the trained model uses input features within a specific dataset and modelling framework, but they do not automatically prove physical causality. For example, if SHAP indicates that humidity contributes strongly to a prediction, this means the model relies on humidity as part of its prediction process, not that humidity alone causes the change in solar output. Therefore, in this study, XAI is used to analyse feature influence and improve interpretability, while avoiding unsupported causal claims.
 
-\section{Problem Formulation}
+\section{1.5 Problem Formulation}
+\subsection{1.5.1 Research Gap}
 
+Based on the reviewed literature, machine learning has shown strong potential for forecasting solar power generation using weather sensor data. Previous studies have applied various forecasting approaches, including Support Vector Regression, Random Forest, XGBoost, LightGBM, CatBoost, Long Short-Term Memory networks, SARIMA, AutoML, and hybrid models to capture the nonlinear relationship between meteorological variables and solar power output. These studies show that weather variables such as solar irradiance, temperature, humidity, wind speed, pressure, and cloud-related features are important predictors of solar power generation \parencite{JnanaVarshitha2025, Bakht2025, Eren2025, Alhassan2025}.
 
-\subsection{Research Gap}
+However, the literature also shows that there is no universally superior forecasting model. The performance of each model depends on dataset characteristics, weather sensor quality, temporal resolution, forecasting horizon, preprocessing method, feature engineering process, and evaluation procedure. Although previous studies report strong forecasting performance using specific models, their findings are often based on different datasets, input features, preprocessing strategies, forecasting horizons, and performance metrics. As a result, it remains difficult to determine which machine learning model is most suitable for a specific weather-sensor-based solar power forecasting task \parencite{ArellanosTafur2025, TsaiLo2025, CarvalhoJunior2025}.
 
-The identified gap based on your literature review
+Another gap identified in the literature is the inconsistent treatment of preprocessing and feature engineering. Solar power generation is influenced not only by raw weather sensor variables, but also by time-dependent patterns such as hour of day, daily solar cycles, seasonal variation, lagged weather values, and rolling averages. In addition, real weather sensor data may contain missing values, noisy readings, outliers, duplicated records, and inconsistent timestamps that can reduce forecasting reliability if they are not handled properly. While previous studies have shown that feature engineering can improve forecasting accuracy, not all studies systematically examine how weather-based and time-based features affect model performance under a controlled forecasting pipeline \parencite{JnanaVarshitha2025, Pongphaw2025, TsaiLo2025, Duvuru2026}.
 
+Furthermore, many forecasting studies focus mainly on predictive accuracy, while less attention is given to model generalizability and feature influence. Complex models such as LSTM and gradient boosting models may achieve high accuracy, but their prediction process can be difficult to interpret. In addition, models that perform well during training may not necessarily maintain reliable performance on unseen weather sensor data. For practical solar energy forecasting, the selected model should not only produce accurate predictions, but also demonstrate reliable performance on unseen data and provide insight into the weather variables that influence solar power generation prediction \parencite{Eren2025, TsaiLo2025, JnanaVarshitha2025, Ma2025}.
 
-\subsection{Problem Statement}
+Therefore, this study addresses these gaps by developing a machine learning-based forecasting framework for solar power generation using weather sensor data. The study will preprocess and engineer relevant weather-based and time-based features, compare selected machine learning models under the same dataset, preprocessing procedure, feature engineering process, and evaluation metrics, and identify the best-performing forecasting model by analysing its prediction accuracy, generalizability on unseen weather sensor data, and the influence of key weather sensor features.
 
-Based on the research gap, the following problems have been identified:
+\subsection{1.5.2 Problem Statement}
 
-\begin{enumerate}
-    \item \textbf{Definition of the Problem:} The problem statement clearly defines the issue that the research aims to address. It should describe the gap in knowledge, real-world challenges, or theoretical inconsistencies that necessitate investigation.
+Machine learning has been widely applied in solar power forecasting because it can model nonlinear relationships between weather sensor variables and solar power output. However, existing studies often use different datasets, preprocessing methods, feature sets, forecasting horizons, model types, and evaluation metrics. This makes it difficult to determine which machine learning model is most suitable for a specific weather-sensor-based solar power forecasting task.
 
-    \item \textbf{Relation to Hypotheses:} The problem statement serves as the foundation for formulating hypotheses. It outlines the research issue, while the hypotheses provide testable predictions based on this problem.
+In addition, preprocessing and feature engineering are not treated consistently across previous studies. Solar power generation is affected by raw weather variables such as solar irradiance, temperature, humidity, wind speed, pressure, and cloud-related features, as well as time-based patterns such as hour of day, daily solar cycles, seasonal variation, lagged values, and rolling averages. Without proper preprocessing and feature engineering, machine learning models may fail to capture important weather-based and time-based patterns, leading to less reliable forecasting performance.
 
-    \item \textbf{Best Practices for Writing a Problem Statement:}
-    \begin{itemize}
-        \item \textbf{Be clear and concise:} The problem statement should be straightforward, avoiding unnecessary jargon while effectively communicating the research issue.
-        \item \textbf{Explain the research gap:} Clearly identify what is missing in existing research and why addressing this gap is important.
-        \item \textbf{Define the scope:} Specify the boundaries of the problem, ensuring that it is neither too broad nor too narrow.
-        \item \textbf{Highlight significance:} Explain why solving this problem is important, including its potential impact on the field, industry, or society.
-        \item \textbf{Use evidence to support the problem:} Reference previous studies, statistics, or real-world examples to justify why the problem exists and why it requires investigation.
-        \item \textbf{Ensure alignment with research objectives:} The problem statement should align with the study’s aims, ensuring consistency throughout the research process.
-    \end{itemize}
-\end{enumerate}
+Another problem is that many studies prioritise predictive accuracy without fully considering model generalizability and feature influence. A model may perform well on training data but fail to maintain reliable performance on unseen weather sensor data. Similarly, complex models such as LSTM and gradient boosting models may produce accurate forecasts but provide limited explanation of which weather sensor features influence the prediction. Therefore, there is a need for a controlled machine learning forecasting framework that preprocesses and engineers weather sensor data, compares selected models fairly, and evaluates the best-performing model based on accuracy, generalizability, and feature influence.
+
+\section{1.6 Research Hypotheses}
+
+H1: Proper preprocessing and feature engineering of weather sensor data can produce suitable weather-based and time-based features for solar power generation forecasting. This hypothesis assumes that raw weather sensor data alone may not fully represent the patterns that affect solar power output. By handling missing values, noisy readings, outliers, duplicated records, and inconsistent timestamps, the dataset becomes more reliable for modelling. In addition, engineered features such as hour of day, seasonal indicators, lagged values, rolling averages, and weather-based variables are expected to help machine learning models capture daily solar cycles, short-term weather persistence, and nonlinear relationships between meteorological conditions and solar power generation.
+
+H2: The performance of selected machine learning models will differ when they are evaluated for solar power generation forecasting using the same dataset, preprocessing procedure, feature engineering process, and evaluation metrics. This hypothesis assumes that different models have different learning mechanisms. For example, Support Vector Regression can model nonlinear regression patterns, Random Forest can capture nonlinear interactions through multiple decision trees, gradient boosting models can learn complex structured-data relationships, and LSTM can learn sequential dependencies from time-series data. Therefore, a controlled comparison is necessary to determine which model performs most effectively for the selected weather-sensor-based solar power forecasting task.
+
+H3: The best-performing forecasting model will be able to maintain reliable performance on unseen weather sensor data and provide useful feature influence insights into the key weather sensor variables affecting solar power generation prediction. This hypothesis assumes that an effective solar forecasting model should not only produce accurate predictions during training, but should also generalize well when applied to unseen data. If a model performs well only on training data but poorly on unseen data, it may indicate overfitting and limited practical usefulness. In addition, the best-performing model should provide interpretable information about which weather sensor features contribute most strongly to the prediction, such as solar irradiance, temperature, humidity, wind speed, pressure, cloud-related features, lagged values, and time-based features.
 
 
-\section{Hypotheses of Study}
-Based on the depicted problem statement, the following have been hypothesised:
+\section{1.7 Study Objectives}
+
+The objectives of this study are:
 
 \begin{enumerate}
-    \item \textbf{Hypotheses:} A hypothesis is a testable statement or assumption that predicts the relationship between variables in a study. It serves as the foundation for research by providing a direction for investigation.
+    \item To preprocess and engineer weather sensor data into suitable weather-based and time-based features for solar power generation forecasting.
 
-    \item \textbf{Relation to Problem Statement:} The problem statement defines the research issue and its significance, while hypotheses emerge from it as specific, testable propositions. The hypotheses offer potential explanations or solutions to the problem and guide data collection and analysis.
+    \item To evaluate and compare the performance of selected machine learning models for solar power generation forecasting using the same dataset, preprocessing procedure, feature engineering process, and evaluation metrics.
 
-    \item \textbf{Best Practices for Writing Hypotheses:}
-    \begin{itemize}
-        \item \textbf{Be clear and specific:} A hypothesis should be precise and unambiguous, defining the variables and their expected relationship.
-        \item \textbf{Ensure testability:} A good hypothesis should be measurable and testable using empirical methods.
-        \item \textbf{Base it on existing knowledge:} Formulate hypotheses based on prior research, theories, or observations.
-        \item \textbf{Use an "If-Then" structure (if applicable):} For causal relationships, use an "If X, then Y" format to establish a clear cause-and-effect relationship.
-        \item \textbf{Make it falsifiable:} A hypothesis should be structured in a way that allows it to be proven false if the evidence contradicts it.
-        \item \textbf{Keep it simple and focused:} Avoid overly complex hypotheses by keeping them concise and to the point.
-    \end{itemize}
+    \item To identify the best-performing forecasting model and analyse its generalizability on unseen weather sensor data and the influence of key weather sensor features on solar power generation prediction.
 \end{enumerate}
 
+\section{1.8  Scope of the Thesis}
 
+The scope of this thesis is focused on machine learning-based forecasting of solar power generation using weather sensor data. The study covers the preprocessing of weather sensor data, including handling missing values, noisy readings, outliers, duplicated records, and inconsistent timestamps where applicable. It also includes feature engineering to transform raw weather variables into suitable weather-based and time-based features for forecasting. These features may include solar irradiance, temperature, humidity, wind speed, pressure, cloud-related features, hour of day, seasonal indicators, lagged values, and rolling averages.
 
-\section{Research Question}
+The study also covers the evaluation and comparison of selected machine learning models for solar power generation forecasting. The selected models will be evaluated using the same dataset, preprocessing procedure, feature engineering process, and evaluation metrics to ensure a fair comparison. The evaluation metrics may include RMSE, MAE, MAPE, and R², depending on the final experimental design and dataset characteristics. The purpose is to determine which model performs most effectively for the selected weather-sensor-based forecasting task. The study focuses on model performance under a consistent experimental framework rather than comparing results from different datasets or unrelated forecasting environments.
 
-\begin{description}
-    \item[RQ3] - Is there any significant correlation between social presence and course satisfaction among third-year Malaysian undergraduates undertaking a BL course in UMS?
-    \item[RQ4] Is there any significant correlation between cognitive presence and course satisfaction among third-year Malaysian undergraduates undertaking a BL course in UMS?
-    \item[RQ5] Which factor of teaching, social, and cognitive presence is dominant in determining course satisfaction among third-year Malaysian undergraduates undertaking a BL course in UMS?
-\end{description}
+In addition, the thesis includes analysis of the best-performing forecasting model in terms of generalizability and feature influence. Generalizability is evaluated using unseen weather sensor data from the same dataset to determine whether the model can maintain reliable forecasting performance beyond the training data. Feature influence analysis is used to identify which weather sensor variables contribute most strongly to solar power generation prediction. However, this study does not claim full external generalizability across all geographical locations, photovoltaic systems, or weather sensor configurations. It also does not focus on hardware design, real-time deployment, physical photovoltaic system construction, or causal modelling of solar power generation.
 
-\section{Study Objectives}
+\section{1.9  Organisation of Thesis}
 
+This thesis is organised into five chapters. Chapter 1 introduces the background of the study, including solar power generation, the influence of weather sensor data, machine learning-based solar forecasting, and Explainable Artificial Intelligence. It also presents the research gap, problem statement, research objectives, research hypotheses, scope of the thesis, and organisation of the thesis.
 
+Chapter 2 presents the literature review related to machine learning-based solar power forecasting using weather sensor data. It discusses previous studies on solar forecasting, selected machine learning algorithms, feature engineering, Explainable Artificial Intelligence, dataset diversity, and model generalizability. This chapter identifies the gaps in previous research and explains how the current study addresses them.
 
-Based on the hypotheses, the following research objectives have been formulated:
+Chapter 3 describes the methodology used in this study. It explains the overall research framework, dataset preparation, preprocessing steps, feature engineering process, machine learning model development, model training and testing procedure, evaluation metrics, and feature influence analysis. This chapter provides the technical procedure used to achieve the research objectives.
 
-\begin{enumerate}    
-    \item  You may refer to online sources about SMART objectives, which define a goal that is specific, measurable, achievable, relevant, and time-bound.
+Chapter 4 presents the results and discussion of the study. It reports the outcomes of preprocessing and feature engineering, compares the forecasting performance of selected machine learning models, identifies the best-performing model, and analyses its generalizability and feature influence. The findings are discussed in relation to the research objectives and the gaps identified in the literature.
 
-
-       
-
-
-    
-\end{enumerate}
+Chapter 5 concludes the thesis by summarising the main findings, contributions, limitations, and future work. It explains how the study contributes to machine learning-based solar power forecasting using weather sensor data and provides recommendations for future research, including possible improvements in dataset diversity, forecasting horizon, model optimisation, and real-world deployment.
 
 
 
-\section{Scope Of Work}
-
-The scope of work for this thesis are:
-
-\begin{enumerate}    
-    \item Placeholder for scope of work.
-\end{enumerate}
-
-\section{Organisation Of Thesis}
-\label{ThesisOrganisation}
 
 
-\noindent The organisation of this thesis is elaborated in the following:
 
-Chapter 1 serves as an introduction, providing an overview of the study and emphasizing the importance of ... . You may eloborate more
-
-Chapter 2 discusses relevant background information on.. . You may eloborate more
-
-Chapter 3 details the development of the proposed method. You may eloborate more
-
-Chapter 4 presents the experimental analysis and validation of the proposed . You may eloborate more
-
-Chapter 5 summarizes key findings from each chapter, highlights the research contributions of this thesis in advancing.. You may eloborate more
-
-
-The Chapter Appendix includes detailed explanations of the s.
